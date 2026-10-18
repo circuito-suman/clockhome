@@ -1,0 +1,18 @@
+# Build artifacts
+build/
+*.bin
+*.elf
+*.map
+*.ota
+*.xz
+*.hash
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# VSCode local settings (keep tasks and c_cpp_properties)
+.vscode/settings.json
+
+# Bouffalo SDK generated files
+build/generated/

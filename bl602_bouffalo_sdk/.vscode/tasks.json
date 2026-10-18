@@ -1,0 +1,114 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "mkdir -p build/generated && touch build/generated/autoconfig.input && make CHIP=${input:chip} BOARD=${input:board} CROSS_COMPILE=riscv64-unknown-elf-",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "BL_SDK_BASE": "${input:sdk}",
+                    "PATH": "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+                }
+            }
+        },
+        {
+            "label": "Flash",
+            "type": "shell",
+            "command": "PORT=$(ls /dev/tty.usbserial-* 2>/dev/null | head -1) && if [ -z $PORT ]; then echo 'ERROR: No USB serial port found.'; exit 1; fi && echo 'Flashing to '$PORT && ${input:sdk}/tools/bflb_tools/bouffalo_flash_cube/BLFlashCube --interface=uart --port=$PORT --baudrate=2000000 --config=${workspaceFolder}/build/flash_prog_cfg.ini",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build and Flash",
+            "type": "shell",
+            "command": "mkdir -p build/generated && touch build/generated/autoconfig.input && make CHIP=${input:chip} BOARD=${input:board} CROSS_COMPILE=riscv64-unknown-elf- && PORT=$(ls /dev/tty.usbserial-* 2>/dev/null | head -1) && if [ -z $PORT ]; then echo 'ERROR: No USB serial port found.'; exit 1; fi && echo 'Flashing to '$PORT && ${input:sdk}/tools/bflb_tools/bouffalo_flash_cube/BLFlashCube --interface=uart --port=$PORT --baudrate=2000000 --config=${workspaceFolder}/build/flash_prog_cfg.ini",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "BL_SDK_BASE": "${input:sdk}",
+                    "PATH": "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+                }
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "rm -rf build",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Serial Monitor",
+            "type": "shell",
+            "command": "PORT=$(ls /dev/tty.usbserial-* 2>/dev/null | head -1) && if [ -z $PORT ]; then echo 'ERROR: No USB serial port found.'; exit 1; fi && echo 'Opening serial monitor on '$PORT && screen $PORT 2000000",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "chip",
+            "type": "pickString",
+            "description": "Select target chip",
+            "options": [
+                "bl602",
+                "bl616",
+                "bl808",
+                "bl702",
+                "bl702l"
+            ],
+            "default": "bl602"
+        },
+        {
+            "id": "board",
+            "type": "pickString",
+            "description": "Select target board",
+            "options": [
+                "bl602dk",
+                "bl616dk",
+                "bl808dk",
+                "bl702dk"
+            ],
+            "default": "bl602dk"
+        },
+        {
+            "id": "sdk",
+            "type": "pickString",
+            "description": "Select Bouffalo SDK path",
+            "options": [
+                "/Users/prom1/Documents/bouffalo_sdk"
+            ],
+            "default": "/Users/prom1/Documents/bouffalo_sdk"
+        }
+    ]
+}

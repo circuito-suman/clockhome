@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "BL602",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Users/prom1/Documents/bouffalo_sdk/**",
+                "/opt/homebrew/Cellar/riscv-gnu-toolchain/main/riscv64-unknown-elf/include/**",
+                "/opt/homebrew/Cellar/riscv-gnu-toolchain/main/lib/gcc/riscv64-unknown-elf/16.1.0/include/**"
+            ],
+            "defines": [
+                "BL602",
+                "BL602DK"
+            ],
+            "compilerPath": "/opt/homebrew/bin/riscv64-unknown-elf-gcc",
+            "cStandard": "c11",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
